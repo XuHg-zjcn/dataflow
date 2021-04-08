@@ -3,8 +3,8 @@ from threading import Thread
 
 import numpy as np
 
-from bytebuffer import ByteBuffer
-from arraybuffer import ArrayBuffer
+from parsers.bytebuffer import ByteBuffer
+from parsers.arraybuffer import ArrayBuffer
 
 """
 frame: min time unit
@@ -46,6 +46,8 @@ class ArrayParser(DataParser):
         :param frame_per_pack: number of frame in a packet
         """
         super().__init__(f, buff_kb)
+        if isinstance(frame_shape, int):
+            frame_shape = (frame_shape,)
         self.frame_shape = tuple(frame_shape)
         self.frame_per_pack = frame_per_pack
 
