@@ -228,6 +228,9 @@ class ArrayBuffer(np.ndarray):
 
 # test code
 if __name__ == "__main__":
+    import time
+    from threading import Thread
+
     abuf = ArrayBuffer((10, 4), np.uint8)
     abuf.put_arr([1, 2, 3, 4])
     abuf.put_arr([11, 22, 33, 44])
@@ -241,3 +244,17 @@ if __name__ == "__main__":
     abuf.put_arr([[1,2,3,4] for i in range(abuf.free_space())])
     print(abuf.get_frames(abuf.frames()))  # will blocking
     abuf.print_state()
+
+    def put10(buf):
+        for i in range(10):
+            buf.put_arr([i, i+10, i+20, i+30])
+            time.sleep(0.5)
+
+    print(abuf.frames())
+    thr = Thread(target=put10, args=(abuf,))
+    thr.start()
+    time.sleep(1)
+    print(abuf.frames())
+
+    while True:
+        print(abuf.get_frames(1))
