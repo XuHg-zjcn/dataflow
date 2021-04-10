@@ -37,3 +37,15 @@ class USBDevice:
 
     def write(self, data):
         self.ep_write.write(data)
+
+
+if __name__ == '__main__':
+    import time
+
+    usbd = USBDevice(idVendor=0xffff)
+    n = 64
+    while True:
+        t0 = time.time()
+        b = usbd.read(n)
+        t1 = time.time()
+        print(len(b)/(t1 - t0))

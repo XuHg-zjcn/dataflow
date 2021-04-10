@@ -3,6 +3,7 @@
 Various methods of drawing scrolling plots.
 """
 from threading import Thread
+import time
 
 import pyqtgraph as pg
 
@@ -20,9 +21,12 @@ class WaveViewItem(pg.PlotItem, Thread):
 
     def run(self):
         while True:
+            t0 = time.time()
             for sig, p in self.signals:
-                sig.get_frames(1)
-                p.setData(sig.get_last_frames(512)[:, 0])
+                p.setData(sig.get_last_frames(512))
+                sig.get_frames(32)
+            t1 = time.time()
+            print(32/(t1-t0))
 
 
 ## Start Qt event loop unless running in interactive mode or using pyside.
