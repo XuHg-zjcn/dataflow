@@ -212,6 +212,9 @@ class ArrayBuffer(np.ndarray):
         self.cond_get.release()
         return ret
 
+    def get_last_frames(self, n):
+        return self[self.tail-n: self.tail]
+
     def reset(self):
         """reset buffer pointer, data will overwrite, but not clear now."""
         self.head = 0

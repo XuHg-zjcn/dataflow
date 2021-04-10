@@ -11,6 +11,8 @@ class WaveViewItem(pg.PlotItem, Thread):
     def __init__(self):
         super().__init__()
         self.signals = []
+        self.showGrid(x=True, y=True)
+        self.getAxis('bottom').setLabel('time', 's')
 
     def add_signal(self, signal):
         p = self.plot()
@@ -19,8 +21,8 @@ class WaveViewItem(pg.PlotItem, Thread):
     def run(self):
         while True:
             for sig, p in self.signals:
-                print(sig.get_frames(1)[0, 0])
-                p.setData(sig[:, 0])
+                sig.get_frames(1)
+                p.setData(sig.get_last_frames(512)[:, 0])
 
 
 ## Start Qt event loop unless running in interactive mode or using pyside.
