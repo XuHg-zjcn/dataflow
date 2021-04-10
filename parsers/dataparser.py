@@ -46,7 +46,9 @@ class ArrayParser(DataParser):
         :param frame_per_pack: number of frame in a packet
         """
         super().__init__(f, buff_kb)
-        if isinstance(frame_shape, int):
+        if frame_shape is None:
+            frame_shape = ()
+        elif isinstance(frame_shape, int):
             frame_shape = (frame_shape,)
         self.frame_shape = tuple(frame_shape)
         self.frame_per_pack = frame_per_pack
@@ -65,7 +67,11 @@ class ArrayParser(DataParser):
     @property
     def frame_bytes(self):
         elem_bytes = np.dtype(self.dtype).itemsize
-        return np.prod(self.frame_shape)*elem_bytes
+        if self.frame_shape:
+            prod = np.prod(self.frame_shape)
+        else:
+            prod = 1
+        return prod*elem_bytes
 
     def run(self):
         if self.iopack_bytes < self.frame_bytes:

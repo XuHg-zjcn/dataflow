@@ -9,7 +9,7 @@ from plot.waveview import WaveViewItem
 if __name__ == '__main__':
     import sys
     usbd = USBDevice(idVendor=0xffff)
-    ap = ArrayParser(usbd, 100, 8, np.uint16, 64)
+    ap = ArrayParser(usbd, 100, None, np.uint16, 64)
     ap.start()
 
     win = pg.GraphicsLayoutWidget(show=True)
