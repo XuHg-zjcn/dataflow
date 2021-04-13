@@ -16,9 +16,13 @@ class MyUi_MainWindow(Ui_MainWindow):
         self.setupUi(win)
         self.edit_sDiv.valueChanged.connect(self.sDiv_slot)
         self.osc = osc
+        self.plotwidget.getAxis('bottom').setLabel('time', 's')
         wvi = WaveItem(osc.ap.arr_buf)
         self.plotwidget.addItem(wvi)
         wvi.start()
+        # TODO: default value move to config file
+        self.label_sDiv.setText('ms/div')
+        self.edit_sDiv.setValue(50)
 
     def sDiv_change_unit(self, change=0):
         """change=-1, smaller unit, change=0 not change, change=1, bigger unit"""
@@ -59,6 +63,7 @@ class MyUi_MainWindow(Ui_MainWindow):
         elif sps < 10:
             sps = 10     # min sampling rate
         self.osc.sps = sps
+        self.plotwidget.getAxis('bottom').setScale(1/self.osc.sps)
 
 
 if __name__ == '__main__':

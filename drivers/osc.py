@@ -23,7 +23,7 @@ class MyOscConfig:
     def sps(self, value):
         self.TIM_AutoLoad = int(84000000//value)-1
         self.TIM_Compare = self.TIM_AutoLoad//2
-        self._sps = value
+        self._sps = 84000000/(self.TIM_AutoLoad + 1)
 
     def usb_pack(self):
         return struct.pack('IIIII',
@@ -37,7 +37,6 @@ class MyOscConfig:
 class Oscilloscope:
     def __init__(self, usbd: USBDevice):
         self.usbd = usbd
-        self._sps = 0
         self.conf = MyOscConfig()
         self.ap = ArrayParser(usbd, 100, None, np.uint16, 128)
         self.ap.start()
@@ -51,5 +50,5 @@ class Oscilloscope:
         if value != self.conf.sps:
             self.conf.sps = value
             pack = self.conf.usb_pack()
-            print(value, 'sps')
+            print(self.conf.sps, 'sps')
             self.usbd.write(pack)

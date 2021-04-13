@@ -17,10 +17,11 @@ class WaveItem(pg.PlotCurveItem, Thread):
         i = 0
         t0 = time.time()
         while True:
-            self.setData(self.signal.get_last_frames(512))
+            y = self.signal.get_last_frames(128)
+            self.setData(y)
             self.signal.get_frames(128)
             i += 1
-            t1 = time.time()
+            t1 = time.time()  # TODO: show kb/s on GUI
             if t1 - t0 > 5:
                 print(128*i / (t1 - t0))
                 t0 = time.time()
