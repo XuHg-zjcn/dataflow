@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>916</width>
-    <height>450</height>
+    <height>420</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -27,7 +33,7 @@
      <string>模式</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="PlotWidget" name="plotwidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -207,13 +213,19 @@
      <rect>
       <x>530</x>
       <y>172</y>
-      <width>377</width>
+      <width>371</width>
       <height>211</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="3">
       <widget class="QLabel" name="label_Color">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>颜色</string>
        </property>
@@ -229,7 +241,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>60</width>
          <height>20</height>
         </size>
        </property>
@@ -237,6 +249,12 @@
      </item>
      <item row="0" column="2">
       <widget class="QLabel" name="label_Y">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>y</string>
        </property>
@@ -249,7 +267,7 @@
       <widget class="QLabel" name="label_prev">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>60</width>
          <height>16777215</height>
         </size>
        </property>
@@ -262,7 +280,7 @@
       <widget class="QLabel" name="label_axis">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>60</width>
          <height>16777215</height>
         </size>
        </property>
@@ -273,6 +291,12 @@
      </item>
      <item row="0" column="1">
       <widget class="QLabel" name="label_X">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>x</string>
        </property>
@@ -285,7 +309,7 @@
       <widget class="QLabel" name="label_main">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>60</width>
          <height>16777215</height>
         </size>
        </property>
@@ -298,7 +322,7 @@
       <widget class="QLabel" name="label_ref">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>60</width>
          <height>16777215</height>
         </size>
        </property>
@@ -311,7 +335,7 @@
       <widget class="QLabel" name="label_coner">
        <property name="maximumSize">
         <size>
-         <width>70</width>
+         <width>60</width>
          <height>16777215</height>
         </size>
        </property>
@@ -344,7 +368,7 @@
       <widget class="QComboBox" name="combo_axisClr">
        <property name="minimumSize">
         <size>
-         <width>100</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -401,6 +425,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

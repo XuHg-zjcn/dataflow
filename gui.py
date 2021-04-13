@@ -2,16 +2,23 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from drivers.osc import Oscilloscope
+from drivers.usbd import USBDevice
 from plot.main_window import Ui_MainWindow
+from plot.waveview import WaveItem
 
 sDiv_label = ['ns/div', 'μs/div', 'ms/div', 's/div', 'min/div']
 sDiv_value = [1e-9, 1e-6, 1e-3, 1, 60]
 
 
 class MyUi_MainWindow(Ui_MainWindow):
-    def __init__(self, win):
+    def __init__(self, win, osc):
         self.setupUi(win)
         self.edit_sDiv.valueChanged.connect(self.sDiv_slot)
+        self.osc = osc
+        wvi = WaveItem(osc.ap.arr_buf)
+        self.plotwidget.addItem(wvi)
+        wvi.start()
 
     def sDiv_change_unit(self, change=0):
         """change=-1, smaller unit, change=0 not change, change=1, bigger unit"""
@@ -45,13 +52,21 @@ class MyUi_MainWindow(Ui_MainWindow):
             self.edit_sDiv.setValue(1)
         else:
             raise ValueError(f'sDiv_slot {sDiv}')
-        print(self.sDiv_change_unit(0) * self.edit_sDiv.value())
+        sDiv_sec = self.sDiv_change_unit(0) * self.edit_sDiv.value()
+        sps = 32/sDiv_sec
+        if sps > 50000:
+            sps = 50000  # max sampling rate
+        elif sps < 10:
+            sps = 10     # min sampling rate
+        self.osc.sps = sps
 
 
 if __name__ == '__main__':
     app = QApplication([])
     win = QMainWindow()
     win.setWindowTitle('STM32 USB Oscilloscope')
-    ui = MyUi_MainWindow(win)
+    usbd = USBDevice(idVendor=0xffff)
+    osc = Oscilloscope(usbd)
+    ui = MyUi_MainWindow(win, osc)
     win.show()
     sys.exit(app.exec_())
