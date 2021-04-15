@@ -54,22 +54,9 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="2">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="0" column="3">
       <widget class="QSpinBox" name="edit_sps"/>
      </item>
-     <item row="0" column="4">
+     <item row="0" column="3">
       <widget class="QLabel" name="label_sps">
        <property name="maximumSize">
         <size>
@@ -82,28 +69,21 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QSpinBox" name="edit_sDiv">
-       <property name="minimum">
-        <number>0</number>
-       </property>
-       <property name="maximum">
-        <number>1000</number>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="label_sDiv">
-       <property name="maximumSize">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>60</width>
-         <height>16777215</height>
+         <width>20</width>
+         <height>40</height>
         </size>
        </property>
-       <property name="text">
-        <string>s/div</string>
-       </property>
-      </widget>
+      </spacer>
+     </item>
+     <item row="0" column="0">
+      <widget class="SpinBoxUnitLabel" name="widget" native="true"/>
      </item>
     </layout>
    </widget>
@@ -213,7 +193,7 @@
      <rect>
       <x>530</x>
       <y>172</y>
-      <width>371</width>
+      <width>377</width>
       <height>211</height>
      </rect>
     </property>
@@ -430,6 +410,12 @@
    <class>PlotWidget</class>
    <extends>QGraphicsView</extends>
    <header>pyqtgraph</header>
+  </customwidget>
+  <customwidget>
+   <class>SpinBoxUnitLabel</class>
+   <extends>QWidget</extends>
+   <header>plot.spinbox_unitlabel</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
