@@ -3,8 +3,8 @@ from threading import Thread
 
 import numpy as np
 
-from parsers.bytebuffer import ByteBuffer
-from parsers.arraybuffer import ArrayBuffer
+from parsers.buffer.bytebuffer import ByteBuffer
+from parsers.buffer.arraybuffer import ArrayBuffer
 
 """
 frame: min time unit
