@@ -1,15 +1,15 @@
 from threading import Thread
 
-from parsers.stream.byte import WriteStreamSplit
+from parsers.stream.byte import WByteStSplit
 from parsers.stream.pack import BytesPack
-from parsers.stream.pack import ReadPackStream
+from parsers.stream.pack import RPackSt
 
 
-class ReadStreamPackSplit(Thread):
+class RPackStSplit(Thread):
     def __init__(self, f):
         super().__init__()
         self.f = f
-        self.st = [ReadPackStream(self, 0)]
+        self.st = [RPackSt(self, 0)]
 
     def run(self):
         while True:
@@ -23,5 +23,5 @@ class ReadStreamPackSplit(Thread):
             stream.pack_count += 1
 
 
-class WriteStreamPackSplit(WriteStreamSplit):
+class WPackStSplit(WByteStSplit):
     pass

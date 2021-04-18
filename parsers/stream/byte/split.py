@@ -1,13 +1,13 @@
 from threading import Thread
 
-from parsers.stream.byte import ReadStream, WriteStream
+from parsers.stream.byte import RByteSt, WByteSt
 
 
-class ReadStreamSplit(Thread):
+class RByteStSplit(Thread):
     def __init__(self, f):
         super().__init__()
         self.f = f
-        self.st = [ReadStream(self, 0)]
+        self.st = [RByteSt(self, 0)]
 
     def run(self):
         while True:
@@ -21,11 +21,11 @@ class ReadStreamSplit(Thread):
             stream.pack_count += 1
 
 
-class WriteStreamSplit:
+class WByteStSplit:
     def __init__(self, f):
         super().__init__()
         self.f = f
-        self.st = [WriteStream(self, 0)]
+        self.st = [WByteSt(self, 0)]
 
     def send(self, sid, data):
         stream = self.st[sid]

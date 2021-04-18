@@ -1,13 +1,13 @@
 from parsers.buffer.bytebuffer import BlockingByteBuffer
 
 
-class Stream:
+class ByteSt:
     def __init__(self, spt, sid):
         self.spt = spt
         self.sid = sid
 
 
-class ReadStream(Stream):
+class RByteSt(ByteSt):
     def __init__(self, spt, sid):
         super().__init__(spt, sid)
         self.r_buf = BlockingByteBuffer()
@@ -18,7 +18,7 @@ class ReadStream(Stream):
         return self.r_buf.get(n)
 
 
-class WriteStream(Stream):
+class WByteSt(ByteSt):
     def __init__(self, spt, sid):
         super().__init__(spt, sid)
         self.w_len = None  # default length of pack
@@ -29,7 +29,7 @@ class WriteStream(Stream):
         self.pack_count += 1
 
 
-class RWStream(ReadStream, WriteStream):
+class RWByteSt(RByteSt, WByteSt):
     def __init__(self, spt, sid):
-        ReadStream.__init__(self, spt, sid)
-        WriteStream.__init__(self, spt, sid)
+        RByteSt.__init__(self, spt, sid)
+        WByteSt.__init__(self, spt, sid)

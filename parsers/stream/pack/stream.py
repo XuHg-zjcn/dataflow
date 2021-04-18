@@ -3,13 +3,13 @@ from queue import Queue
 from parsers.stream.pack import BytesPack
 
 
-class PackStream:
+class PackSt:
     def __init__(self, spt, sid):
         self.spt = spt
         self.sid = sid
 
 
-class ReadPackStream(PackStream):
+class RPackSt(PackSt):
     def __init__(self, spt, sid):
         super().__init__(spt, sid)
         self.r_queue = Queue()
@@ -20,7 +20,7 @@ class ReadPackStream(PackStream):
         return self.r_queue.get(blocking, timeout)
 
 
-class WritePackStream(PackStream):
+class WPackSt(PackSt):
     def __init__(self, spt, sid):
         super().__init__(spt, sid)
         self.w_len = None  # default length of pack
@@ -31,7 +31,7 @@ class WritePackStream(PackStream):
         self.pack_count += 1
 
 
-class RWPackStream(ReadPackStream, WritePackStream):
+class RWPackSt(RPackSt, WPackSt):
     def __init__(self, spt, sid):
-        ReadPackStream.__init__(self, spt, sid)
-        WritePackStream.__init__(self, spt, sid)
+        RPackSt.__init__(self, spt, sid)
+        WPackSt.__init__(self, spt, sid)
