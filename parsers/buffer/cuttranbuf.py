@@ -12,7 +12,7 @@ class CutTranBuf:
 
 class CutTranBufRead(CutTranBuf):
     def __init__(self, f, r_size=1):
-        super(CutTranBuf, self).__init__(f)
+        super().__init__(f)
         self.r_size = r_size
         self.r_buf = ByteBuffer()
 
