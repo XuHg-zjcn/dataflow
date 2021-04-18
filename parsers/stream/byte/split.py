@@ -1,13 +1,12 @@
 from threading import Thread
 
-from parsers.comm.stream import ReadStream, WriteStream
+from parsers.stream.byte import ReadStream, WriteStream
 
 
 class ReadStreamSplit(Thread):
-    def __init__(self, f, size):
+    def __init__(self, f):
         super().__init__()
         self.f = f
-        self.size = size
         self.st = [ReadStream(self, 0)]
 
     def run(self):
@@ -23,10 +22,9 @@ class ReadStreamSplit(Thread):
 
 
 class WriteStreamSplit:
-    def __init__(self, f, size):
+    def __init__(self, f):
         super().__init__()
         self.f = f
-        self.size = size
         self.st = [WriteStream(self, 0)]
 
     def send(self, sid, data):
