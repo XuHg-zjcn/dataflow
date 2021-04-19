@@ -5,8 +5,8 @@ class FrameGroup:
     def __init__(self, gid, fid, sr:float=None, t0=None):
         """
         :param gid: group id
-        :param fid: first frame id
-        :param sr: sample rate(Hz)
+        :param fid: first frame id of group
+        :param sr: sample rate(Hz), None will auto calc during setting length.
         :param t0: time of first frame
         """
         if t0 is None:

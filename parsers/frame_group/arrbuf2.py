@@ -26,6 +26,16 @@ class ArrayBuffer2:
     array buffer single input multiply output.
     not blocking for put data, auto overwrite.
     # TODO: auto extend, keep data until all heads geted.
+
+     ______________________________________________
+    |/////////|||||||||||||||||||||||||||||||||||||   numpy array
+    | Group5 | Group1 | Group2 | G3 |   Group 4   |   FrameGroup
+             ^              |            |
+             |              v            v
+         put_head      get_head0     get_head1        Heads
+
+    in cycle write buffer:
+    frame id(fid) keep increase, index will reset to 0 during overflow.
     """
     def __init__(self, shape, dtype, kb=None):
         if shape[0] is None:
