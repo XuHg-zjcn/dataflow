@@ -16,8 +16,8 @@ class RPackSt(PackSt):
         self.r_len = None  # default length of pack
         self.pack_count = 0
 
-    def get_pack(self, blocking, timeout):
-        return self.r_queue.get(blocking, timeout)
+    def get_pack(self, *args, **kwargs):
+        return self.r_queue.get(*args, **kwargs)
 
 
 class WPackSt(PackSt):

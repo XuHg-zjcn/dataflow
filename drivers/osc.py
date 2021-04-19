@@ -3,7 +3,9 @@ import struct
 import numpy as np
 
 from drivers.usbd import USBDevice
-from parsers.dataparser import ArrayParser
+from parsers.buffer.nxtranbuf import NxTranBufRead
+from parsers.parser.arrayparser2 import ArrayParser2
+from parsers.stream.pack import RPackStSplit
 
 
 class MyOscConfig:
@@ -38,7 +40,13 @@ class Oscilloscope:
     def __init__(self, usbd: USBDevice):
         self.usbd = usbd
         self.conf = MyOscConfig()
-        self.ap = ArrayParser(usbd, 100, None, np.uint16, 128)
+        self.t_buf = NxTranBufRead(usbd)
+        self.split = RPackStSplit(self.t_buf)
+        self.split.st[0].r_len = 64
+        self.split.start()
+        p_st = self.split.st[0]
+        self.ap = ArrayParser2(p_st, None, np.uint16, 100)
+        self.ap.a_buf.add_head()
         self.ap.start()
 
     @property

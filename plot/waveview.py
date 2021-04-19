@@ -10,6 +10,9 @@ import pyqtgraph as pg
 
 class WaveItem(pg.PlotCurveItem, Thread):
     def __init__(self, signal):
+        """
+        :param signal: ArrayBuffer2
+        """
         super().__init__()
         self.signal = signal
 
@@ -17,9 +20,8 @@ class WaveItem(pg.PlotCurveItem, Thread):
         i = 0
         t0 = time.time()
         while True:
-            y = self.signal.get_last_frames(128)
+            y = self.signal.get_heads[0].get_frames(128)
             self.setData(y)
-            self.signal.get_frames(128)
             i += 1
             t1 = time.time()  # TODO: show kb/s on GUI
             if t1 - t0 > 5:

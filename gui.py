@@ -17,7 +17,7 @@ class MyUi_MainWindow(Ui_MainWindow):
         self.widget.initUI(units='[u-1]s/div', limit_range=(1e-5, 0.1))
         self.osc = osc
         self.plotwidget.getAxis('bottom').setLabel('time', 's')
-        wvi = WaveItem(osc.ap.arr_buf)
+        wvi = WaveItem(osc.ap.a_buf)
         self.plotwidget.addItem(wvi)
         wvi.start()
         self.widget.setValueNeatest(0.1)

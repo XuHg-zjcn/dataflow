@@ -1,3 +1,4 @@
+import struct
 from threading import Thread
 
 from parsers.stream.byte import WByteStSplit
@@ -13,12 +14,13 @@ class RPackStSplit(Thread):
 
     def run(self):
         while True:
-            sid, pid = self.f.read(2)
+            #sid, pid = self.f.read(2)
+            sid = 0
             stream = self.st[sid]
-            assert pid == stream.pack_count, 'pack id error'
+            #assert pid == stream.pack_count, 'pack id error'
             size = stream.r_len
             if size is None:
-                size = int(self.f.read(2))
+                size = struct.unpack('B', self.f.read(2))
             stream.r_queue.put(BytesPack(self.f.read(size)))
             stream.pack_count += 1
 
