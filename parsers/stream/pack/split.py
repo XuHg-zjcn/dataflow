@@ -11,17 +11,22 @@ class RPackStSplit(Thread):
         super().__init__()
         self.f = f
         self.st = [RPackSt(self, 0)]
+        self.sid = 0
 
     def run(self):
         while True:
-            #sid, pid = self.f.read(2)
-            sid = 0
+            pack = self.f.read(64)  # max pack size = 65536
+            if self.sid is None:
+                sid, pid = struct.unpack('BB', pack[:2])
+            else:
+                sid = self.sid
             stream = self.st[sid]
-            #assert pid == stream.pack_count, 'pack id error'
+            # assert pid == stream.pack_count, 'pack id error'
             size = stream.r_len
-            if size is None:
-                size = struct.unpack('B', self.f.read(2))
-            stream.r_queue.put(BytesPack(self.f.read(size)))
+            # assert pid == stream.pack_count, 'pack id error'
+            assert size is None or len(pack) == size,\
+                f'req length{size}, but get len{len(pack)}'
+            stream.r_queue.put(BytesPack(pack))
             stream.pack_count += 1
 
 
