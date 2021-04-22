@@ -35,6 +35,7 @@ class WaveItem(pg.PlotCurveItem, Thread):
 ## Start Qt event loop unless running in interactive mode or using pyside.
 if __name__ == '__main__':
     import sys
+    from PyQt5 import QtCore
     win = pg.GraphicsLayoutWidget(show=True)
     win.setWindowTitle('pyqtgraph example: Scrolling Plots')
     win.addItem()
