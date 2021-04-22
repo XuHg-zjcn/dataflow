@@ -19,8 +19,10 @@ class WaveItem(pg.PlotCurveItem, Thread):
     def run(self):
         i = 0
         t0 = time.time()
+        self.signal.cond.acquire()
         while True:
-            y = self.signal.get_heads[0].get_frames(128)
+            self.signal.cond.wait()
+            y = self.signal.put_head.get_last(128)
             self.setData(y)
             i += 1
             t1 = time.time()  # TODO: show kb/s on GUI

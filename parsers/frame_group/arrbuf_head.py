@@ -40,6 +40,10 @@ class ArrBufHeadPut(ArrBufHead):
         if self.fpg and self.offset >= self.fpg:
             self.next_group(self.fpg)
 
+    def get_last(self, n):
+        fid = self.fid()
+        return self.a_buf[max(fid-n, 0):fid]
+
 
 class ArrBufHeadGet(ArrBufHead):
     """
