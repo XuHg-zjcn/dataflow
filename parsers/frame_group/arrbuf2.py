@@ -105,7 +105,7 @@ class ArrayBuffer2:
                 stop -= self.arr.shape[0]
                 c1 = self.arr[tuple([slice(start, None, step)]+oindex)]
                 c2 = self.arr[tuple([slice(None, stop, step)]+oindex)]
-                return np.concatenate(c1, c2)
+                return np.concatenate((c1, c2))
         else:
             raise TypeError('unsupported type')
         oindex.insert(0, fsli)
