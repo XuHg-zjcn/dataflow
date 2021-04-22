@@ -1,6 +1,5 @@
-from threading import Condition
-
 import numpy as np
+from PyQt5.QtCore import pyqtSignal, QObject
 
 from parsers.frame_group.arrbuf_head import ArrBufHeadPut, ArrBufHeadGet
 from parsers.frame_group.grouplist import GroupList
@@ -46,7 +45,6 @@ class ArrayBuffer2:
         self.put_head = ArrBufHeadPut(self, self.groups[0])
         self.get_heads = []
         self.total_put = 0
-        self.cond = Condition()
 
     def is_gettable(self, fid):
         if fid >= self.total_put:
@@ -80,9 +78,6 @@ class ArrayBuffer2:
             self.arr[:stop] = arr[spt:]
         self.put_head.offset += arr.shape[0]
         self.total_put += arr.shape[0]
-        self.cond.acquire()
-        self.cond.notify_all()
-        self.cond.release()
 
     def put_bytes(self, data: bytes):
         tmp = np.frombuffer(data, dtype=self.arr.dtype)
@@ -114,3 +109,15 @@ class ArrayBuffer2:
     def add_head(self):
         head = ArrBufHeadGet(self, self.groups[-1])
         self.get_heads.append(head)
+
+
+class PyQtArrayBuffer(ArrayBuffer2, QObject):
+    new_data = pyqtSignal(np.ndarray)
+
+    def __init__(self, *args, **kwargs):
+        ArrayBuffer2.__init__(self, *args, **kwargs)
+        QObject.__init__(self)
+
+    def put_arr(self, arr):
+        super().put_arr(arr)
+        self.new_data.emit(arr)

@@ -18,8 +18,8 @@ class MyUi_MainWindow(Ui_MainWindow):
         self.osc = osc
         self.plotwidget.getAxis('bottom').setLabel('time', 's')
         wvi = WaveItem(osc.ap.a_buf)
+        osc.ap.a_buf.new_data.connect(wvi.upd)
         self.plotwidget.addItem(wvi)
-        wvi.start()
         self.widget.setValueNeatest(0.1)
         # TODO: default value move to config file
         self.widget.valueChange.connect(self.sDiv_slot)

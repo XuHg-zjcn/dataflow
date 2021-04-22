@@ -2,34 +2,20 @@
 """
 Various methods of drawing scrolling plots.
 """
-from threading import Thread
-import time
-
 import pyqtgraph as pg
 
 
-class WaveItem(pg.PlotCurveItem, Thread):
+class WaveItem(pg.PlotCurveItem):
     def __init__(self, signal):
         """
         :param signal: ArrayBuffer2
         """
-        super().__init__()
         self.signal = signal
+        super().__init__()
 
-    def run(self):
-        i = 0
-        t0 = time.time()
-        self.signal.cond.acquire()
-        while True:
-            self.signal.cond.wait()
-            y = self.signal.put_head.get_last(128)
-            self.setData(y)
-            i += 1
-            t1 = time.time()  # TODO: show kb/s on GUI
-            if t1 - t0 > 5:
-                print(128*i / (t1 - t0))
-                t0 = time.time()
-                i = 0
+    def upd(self):
+        y = self.signal.put_head.get_last(128)
+        self.setData(y)
 
 
 ## Start Qt event loop unless running in interactive mode or using pyside.

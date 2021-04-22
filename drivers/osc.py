@@ -4,7 +4,7 @@ import numpy as np
 
 from drivers.usbd import USBDevice
 from parsers.buffer.nxtranbuf import NxTranBufRead
-from parsers.frame_group.arrbuf2 import ArrayBuffer2
+from parsers.frame_group.arrbuf2 import PyQtArrayBuffer
 from parsers.parser.arrayparser2 import ArrayParser2
 from parsers.stream.pack import RPackStSplit
 
@@ -60,7 +60,7 @@ class Oscilloscope:
         p_st = self.split.st[0]
         p_st.r_len = 64
         # array buffer
-        self.a_buf = ArrayBuffer2((None,), np.uint16, 100)
+        self.a_buf = PyQtArrayBuffer((None,), np.uint16, 100)
         self.a_buf.add_head()
         # parser
         self.ap = ArrayParser2(p_st, self.a_buf)
@@ -72,16 +72,32 @@ class Oscilloscope:
     def sps(self):
         return self.conf.sps
 
+    def pause_all(self):
+        self.split.pause = True
+        self.ap.pause = True
+        self.split.mutex.lock()
+        self.ap.mutex.lock()
+
+    def resume_all(self):
+        self.split.pause = False
+        self.ap.pause = False
+        self.split.mutex.unlock()
+        self.ap.mutex.unlock()
+
     @sps.setter
     def sps(self, value):
         if value != self.conf.sps:
             self.conf.sps = value
             pack = self.conf.usb_pack()
             p_st = self.split.st[0]
+            # operate in pause mode
+            self.pause_all()
             while p_st.r_queue.qsize() > 0:
                 p_st.r_queue.get()
             self.t_buf.clear()
             self.t_buf.r_size = self.conf.pack_size*2
             self.split.st[0].r_len = self.conf.pack_size*2
             self.usbd.write(pack)
+            self.resume_all()
+
             print(self.conf.sps, 'sps')
