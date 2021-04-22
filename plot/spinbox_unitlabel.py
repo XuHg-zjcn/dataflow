@@ -204,6 +204,7 @@ class SpinBoxUnitLabel(QWidget):
             self.label.setText(new_unit)
         elif ni >= len(self.nums):
             num, new_unit = self.unit_change(1)
+            ni = BinarySearch(self.nums, num)
             self.label.setText(new_unit)
             ni = math.floor(ni) + 1  # ni < ni' <= ni+1, ni' is integrate
         else:

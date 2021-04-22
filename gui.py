@@ -14,7 +14,7 @@ sDiv_value = [1e-9, 1e-6, 1e-3, 1, 60]
 class MyUi_MainWindow(Ui_MainWindow):
     def __init__(self, win, osc):
         self.setupUi(win)
-        self.widget.initUI(units='[u-1]s/div', limit_range=(1e-5, 0.1))
+        self.widget.initUI(units='[u-1]s/div', limit_range=(1e-5, 5))
         self.osc = osc
         self.plotwidget.getAxis('bottom').setLabel('time', 's')
         wvi = WaveItem(osc.ap.a_buf)
